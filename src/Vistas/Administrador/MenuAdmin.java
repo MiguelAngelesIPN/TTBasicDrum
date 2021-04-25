@@ -120,6 +120,9 @@ public class MenuAdmin extends javax.swing.JFrame {
         Practica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Practica.png"))); // NOI18N
         Practica.setText("Practica");
         Practica.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PracticaMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 PracticaMouseEntered(evt);
             }
@@ -258,6 +261,18 @@ public class MenuAdmin extends javax.swing.JFrame {
         dispose();
         vista.setVisible(true);
     }//GEN-LAST:event_AdministraMouseClicked
+
+    private void PracticaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PracticaMouseClicked
+        // TODO add your handling code here:
+        PracticarAdmin vista;
+        try {
+            vista = new PracticarAdmin(conexion,usuario);
+            dispose();
+            vista.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(MenuAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_PracticaMouseClicked
 
     /**
      * @param args the command line arguments
