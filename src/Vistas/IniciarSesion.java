@@ -79,13 +79,13 @@ public class IniciarSesion extends javax.swing.JFrame {
         ImagenPrograma.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
         ImagenPrograma.setForeground(new java.awt.Color(255, 255, 255));
         ImagenPrograma.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ImagenPrograma.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo Bateria.jpg"))); // NOI18N
+        ImagenPrograma.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Fondo Bateria.jpg"))); // NOI18N
         ImagenPrograma.setText("BasicDrum");
         PanelLogo.add(ImagenPrograma, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 0, 460, 540));
 
         PanelIniciarSesion.setBackground(new java.awt.Color(255, 255, 255));
 
-        Cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icons8_Multiply_32px.png"))); // NOI18N
+        Cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/icons8_Multiply_32px.png"))); // NOI18N
         Cerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Cerrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -93,7 +93,7 @@ public class IniciarSesion extends javax.swing.JFrame {
             }
         });
 
-        Minimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icons8_Expand_Arrow_32px.png"))); // NOI18N
+        Minimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/icons8_Expand_Arrow_32px.png"))); // NOI18N
         Minimizar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 MinimizarMouseClicked(evt);
@@ -144,7 +144,7 @@ public class IniciarSesion extends javax.swing.JFrame {
         PanelIniciarSesionLayout.setHorizontalGroup(
             PanelIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelIniciarSesionLayout.createSequentialGroup()
-                .addContainerGap(62, Short.MAX_VALUE)
+                .addContainerGap(30, Short.MAX_VALUE)
                 .addGroup(PanelIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelIniciarSesionLayout.createSequentialGroup()
                         .addGroup(PanelIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)

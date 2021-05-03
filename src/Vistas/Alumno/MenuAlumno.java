@@ -92,20 +92,20 @@ public class MenuAlumno extends javax.swing.JFrame {
         jPanel1.add(jButtonCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 480, 240, -1));
 
         jLabel3.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo Bateria.jpg"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Fondo Bateria.jpg"))); // NOI18N
         jLabel3.setText("Aqui va el nombre del usuario");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 470, 540));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        Minimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icons8_Expand_Arrow_32px.png"))); // NOI18N
+        Minimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/icons8_Expand_Arrow_32px.png"))); // NOI18N
         Minimizar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 MinimizarMouseClicked(evt);
             }
         });
 
-        Cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icons8_Multiply_32px.png"))); // NOI18N
+        Cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/icons8_Multiply_32px.png"))); // NOI18N
         Cerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Cerrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -114,7 +114,7 @@ public class MenuAlumno extends javax.swing.JFrame {
         });
 
         Aprende.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
-        Aprende.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Aprende.png"))); // NOI18N
+        Aprende.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Aprende.png"))); // NOI18N
         Aprende.setText("Aprende");
         Aprende.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -126,7 +126,7 @@ public class MenuAlumno extends javax.swing.JFrame {
         });
 
         Practica.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
-        Practica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Practica.png"))); // NOI18N
+        Practica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Practica.png"))); // NOI18N
         Practica.setText("Practica");
         Practica.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
