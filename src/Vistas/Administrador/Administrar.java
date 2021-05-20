@@ -144,6 +144,9 @@ public class Administrar extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Administrar ejercicios");
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jLabel2MouseEntered(evt);
             }
@@ -264,9 +267,21 @@ public class Administrar extends javax.swing.JFrame {
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         // TODO add your handling code here:
         dispose();
-        AdminUsuarios vista=new AdminUsuarios(conexion,usuario);
-        vista.setVisible(true);
+        AdminUsuarios vista;
+        try {
+            vista = new AdminUsuarios(conexion,usuario);
+            vista.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Administrar.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        // TODO add your handling code here:
+        AgregarEjercicios vista=new AgregarEjercicios(conexion,usuario);
+        vista.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jLabel2MouseClicked
 
     /**
      * @param args the command line arguments

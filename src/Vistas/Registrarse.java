@@ -60,7 +60,7 @@ public class Registrarse extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        Cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icons8_Multiply_32px.png"))); // NOI18N
+        Cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/icons8_Multiply_32px.png"))); // NOI18N
         Cerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Cerrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -68,9 +68,9 @@ public class Registrarse extends javax.swing.JFrame {
             }
         });
 
-        Minimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icons8_Expand_Arrow_32px.png"))); // NOI18N
+        Minimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/icons8_Expand_Arrow_32px.png"))); // NOI18N
 
-        Retroceder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icons8_Back_64px.png"))); // NOI18N
+        Retroceder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/icons8_Back_64px.png"))); // NOI18N
         Retroceder.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 RetrocederMouseClicked(evt);

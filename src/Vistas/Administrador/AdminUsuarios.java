@@ -9,6 +9,8 @@ import Modelos.Usuario;
 import Servicios.Conexion;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -25,19 +27,27 @@ public class AdminUsuarios extends javax.swing.JFrame {
     public AdminUsuarios() {
         initComponents();
     }
-    public AdminUsuarios(Conexion conexion,Usuario usuario){
+    public AdminUsuarios(Conexion conexion,Usuario usuario) throws SQLException{
         initComponents();
         this.conexion=conexion;
         this.usuario=usuario;
+        LlenarTabla("select id,nombre,tipo,email from usuario");
     }
     
-    public void LlenarTabla() throws SQLException{
-        String consulta="select id,nombre,tipo,email from usuario";
+    public void LlenarTabla(String consulta) throws SQLException{
         ResultSet resultado=conexion.Consultar(consulta);
         DefaultTableModel dtm=new DefaultTableModel();
         dtm.addColumn("Id");
         dtm.addColumn("Nombre");
-        
+        dtm.addColumn("Tipo");
+        dtm.addColumn("E-mail");
+        while(resultado.next()){
+            Object objeto[]=new Object[4];
+            for(int i=0;i<4;i++)
+                objeto[i]=resultado.getObject(i+1);
+            dtm.addRow(objeto);
+        }
+        jTable1.setModel(dtm);
     }
 
     /**
@@ -55,10 +65,15 @@ public class AdminUsuarios extends javax.swing.JFrame {
         Cerrar = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-        setMaximumSize(new java.awt.Dimension(817, 540));
         setMinimumSize(new java.awt.Dimension(817, 540));
         setUndecorated(true);
 
@@ -86,6 +101,7 @@ public class AdminUsuarios extends javax.swing.JFrame {
             }
         });
 
+        jTable1.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -97,7 +113,53 @@ public class AdminUsuarios extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jTable1);
+
+        jButton1.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        jButton1.setText("Editar nombre");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        jButton2.setText("Editar tipo de usuario");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        jButton3.setText("Editar E-mail");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        jLabel1.setText("Buscar:");
+
+        jTextField1.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField1KeyTyped(evt);
+            }
+        });
+
+        jButton4.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        jButton4.setText("Eliminar usuario seleccionado");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -113,7 +175,19 @@ public class AdminUsuarios extends javax.swing.JFrame {
                         .addComponent(Minimizar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Cerrar))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 797, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 797, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -124,9 +198,21 @@ public class AdminUsuarios extends javax.swing.JFrame {
                     .addComponent(Retroceder)
                     .addComponent(Minimizar)
                     .addComponent(Cerrar))
-                .addGap(15, 15, 15)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addGap(10, 10, 10)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -163,6 +249,127 @@ public class AdminUsuarios extends javax.swing.JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_CerrarMouseClicked
+
+    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jTextField1KeyTyped
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        // TODO add your handling code here:
+        String comando="select id, nombre, tipo, email from usuario where nombre like '%"+jTextField1.getText()+"%' or tipo like '%"+jTextField1.getText()+"%' or email like '%"+jTextField1.getText()+"%'";
+        try {
+            LlenarTabla(comando);
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jTextField1KeyReleased
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        int fila=jTable1.getSelectedRow();
+        if(fila!=-1){
+            System.out.println(fila);
+            String Nombre=(String) jTable1.getValueAt(fila, 1);
+            int id=(int) jTable1.getValueAt(fila, 0);
+            System.out.println(Nombre);
+            try{
+                String nvoNombre=JOptionPane.showInputDialog("Ingresa el nuevo nombre de usuario");
+                if(nvoNombre.equals("")){
+                    JOptionPane.showMessageDialog(this, "Debe ingresar un nombre");
+                }
+                else{
+                    String comando="update usuario set nombre='"+nvoNombre+"' where id="+id;
+                    try {
+                        conexion.Actualizar(comando);
+                        JOptionPane.showMessageDialog(this, "Información actualizada con éxito.");
+                        LlenarTabla("select id,nombre,tipo,email from usuario");
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AdminUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    System.out.println(comando);
+
+                }
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un usuario");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        int fila=jTable1.getSelectedRow();
+        if(fila!=-1){
+            try{
+                int id=(int) jTable1.getValueAt(fila, 0);
+                String[] opciones={"admin","alumno"};
+                String seleccion=(String)JOptionPane.showInputDialog(null,"Seleccione el nuevo tipo de usuario","Asignar tipo de usuario",JOptionPane.QUESTION_MESSAGE,null,opciones,opciones[0]);
+                String comando="update usuario set tipo='"+seleccion+"' where id="+id;
+                conexion.Actualizar(comando);
+                JOptionPane.showMessageDialog(this, "Información actualizada con éxito.");
+                LlenarTabla("select id,nombre,tipo,email from usuario");
+            }
+            catch(Exception e){
+                
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un usuario.");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        int fila=jTable1.getSelectedRow();
+        if(fila!=-1){
+            try{
+                int id=(int) jTable1.getValueAt(fila, 0);
+                String seleccion=(String)JOptionPane.showInputDialog(null,"Ingrese el nuevo correo electrónico");
+                String comando="update usuario set email='"+seleccion+"' where id="+id;
+                conexion.Actualizar(comando);
+                JOptionPane.showMessageDialog(this, "Información actualizada con éxito.");
+                LlenarTabla("select id,nombre,tipo,email from usuario");
+            }
+            catch(Exception e){
+                
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un usuario.");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        int fila=jTable1.getSelectedRow();
+        if(fila!=-1){
+            try{
+                int id=(int) jTable1.getValueAt(fila, 0);
+                int opcion=(int)JOptionPane.showConfirmDialog(this, "¿Esta seguro que desea eliminar al usuario "+jTable1.getValueAt(fila, 1)+"?");
+                System.out.println(opcion);
+                if(opcion==0){
+                    String comando="delete from usuario where id="+id;
+                    conexion.Actualizar(comando);
+                    JOptionPane.showMessageDialog(this,"Usuario eliminado con éxito.");
+                    LlenarTabla("select id,nombre,tipo,email from usuario");
+                }
+                /*String comando="update usuario set email='"+seleccion+"' where id="+id;
+                conexion.Actualizar(comando);
+                JOptionPane.showMessageDialog(this, "Información actualizada con éxito.");
+                LlenarTabla("select id,nombre,tipo,email from usuario");*/
+            }
+            catch(Exception e){
+                
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un usuario.");
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -205,8 +412,14 @@ public class AdminUsuarios extends javax.swing.JFrame {
     private javax.swing.JLabel Cerrar;
     private javax.swing.JLabel Minimizar;
     private javax.swing.JLabel Retroceder;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
