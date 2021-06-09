@@ -6,14 +6,23 @@
 package Vistas.Administrador;
 
 import Modelos.Usuario;
+import Recursos.Multimedia.Multimedia;
 import Servicios.Conexion;
 import Servicios.OperacionesUsuario;
 import Vistas.IniciarSesion;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -23,6 +32,8 @@ public class AgregarEjercicios extends javax.swing.JFrame {
     private Conexion conexion;
     private Usuario usuario;
     private OperacionesUsuario operaciones;
+    private File[] archivos;
+    private String archivoMidi;
     /**
      * Creates new form AgregarEjercicios
      */
@@ -42,6 +53,8 @@ public class AgregarEjercicios extends javax.swing.JFrame {
         jComboBox2.setEditable(true);
         jComboBox2.removeAllItems();;
         Instrumentos();
+        archivos=null;
+        archivoMidi=null;
     }
     
     /**
@@ -71,6 +84,8 @@ public class AgregarEjercicios extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -140,6 +155,11 @@ public class AgregarEjercicios extends javax.swing.JFrame {
                 jComboBox1ActionPerformed(evt);
             }
         });
+        jComboBox1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jComboBox1KeyReleased(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel1.setText("<html>Seleccione el instrumento, en caso de no estar, escriba</hmtl>");
@@ -160,15 +180,35 @@ public class AgregarEjercicios extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
         jButton1.setText("Seleccionar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel7.setText("Seleccione archivo MIDI");
 
         jButton2.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
         jButton2.setText("Seleccionar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
         jButton3.setText("Crear ejercicio");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel8.setText("Ingrese el nombre del ejercicio:");
+
+        jTextField1.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -176,38 +216,47 @@ public class AgregarEjercicios extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                    .addGap(226, 226, 226)
-                                    .addComponent(Retroceder)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(Minimizar)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(Cerrar))
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jLabel6))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(84, 84, 84)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButton2)
-                                .addComponent(jButton1))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(10, 10, 10)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                            .addGap(226, 226, 226)
+                                            .addComponent(Retroceder)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(Minimizar)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(Cerrar))
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(jLabel6))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(84, 84, 84)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jButton2)
+                                        .addComponent(jButton1))))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel7))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(64, 64, 64)
+                                .addComponent(jButton3))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel8)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel7))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(64, 64, 64)
-                        .addComponent(jButton3)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jTextField1)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,6 +274,10 @@ public class AgregarEjercicios extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -311,13 +364,127 @@ public class AgregarEjercicios extends javax.swing.JFrame {
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
-        jComboBox2.setEnabled(true);
         try {
             Tema();
+            jComboBox2.setEnabled(true);
         } catch (SQLException ex) {
             Logger.getLogger(AgregarEjercicios.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jComboBox1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox1KeyReleased
+        // TODO add your handling code here:
+        try {
+            Tema();
+            jComboBox2.setEnabled(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(AgregarEjercicios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jComboBox1KeyReleased
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        JFileChooser chooser=new JFileChooser();
+        FileNameExtensionFilter filter=new FileNameExtensionFilter("Imagenes y videos","jpg","png","gif","mp4","wmv");
+        chooser.setFileFilter(filter);
+        chooser.setMultiSelectionEnabled(true);
+        int abrir=chooser.showOpenDialog(this);
+        if(abrir==0){
+            archivos=chooser.getSelectedFiles();
+            for(int i=0;i<archivos.length;i++){
+                System.out.println("Archivo seleccionado "+archivos[i].getAbsolutePath());
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "No se seleccionó ningun archivo");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        JFileChooser chooser=new JFileChooser();
+        FileNameExtensionFilter filter=new FileNameExtensionFilter("MIDI","mid");
+        chooser.setFileFilter(filter);
+        int abrir=chooser.showOpenDialog(this);
+        if(abrir==0){
+            archivoMidi=chooser.getSelectedFile().getAbsolutePath();
+            System.out.println("Archivo seleccionado "+archivoMidi);
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "No se seleccionó ningun archivo");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String nombreEjercicio=jTextField1.getText();
+        if(archivos==null||archivoMidi==null||nombreEjercicio.equals("")){
+            JOptionPane.showMessageDialog(this, "Por favor complete los datos.");
+        }
+        else{
+            try {
+                if(jComboBox1.isEnabled()&&jComboBox2.isEnabled()){
+                    String instrumento=jComboBox1.getSelectedItem().toString();
+                    ResultSet rs1=conexion.Consultar("select*from instrumento where nombre='"+instrumento+"'");
+                    if(!rs1.next()){
+                        String tipo=JOptionPane.showInputDialog(this, "Ingrese el tipo de instrumento");
+                        String descripcion=JOptionPane.showInputDialog(this, "Ingrese una breve descripcion del instrumento");
+                        conexion.Insertar("insert into instrumento(tipo,descripción,nombre) values('"+tipo+"','"+descripcion+"','"+instrumento+"')");
+                    }
+                    String tema=jComboBox2.getSelectedItem().toString();
+                    ResultSet rs2=conexion.Consultar("select*from tema where nombre='"+tema+"'");
+                    if(!rs2.next()){
+                        String descripcionTema=JOptionPane.showInputDialog(this, "Ingrese una breve descripcion del tema");
+                        conexion.Insertar("insert into tema (Nombre,descripción) values('"+tema+"','"+descripcionTema+"')");
+                    }
+                    rs1=conexion.Consultar("select*from instrumento where nombre='"+instrumento+"'");
+                    rs2=conexion.Consultar("select*from tema where nombre='"+tema+"'");
+                    rs1.next();
+                    int idInstrumento=rs1.getInt("idInstrumento");
+                    rs2.next();
+                    int idTema=rs2.getInt("idTema");
+                    System.out.println(idInstrumento+" "+idTema);
+                    ResultSet rs3=conexion.Consultar("select * from temainstrumento where Instrumento_idInstrumento="+idInstrumento+" and Tema_idTema="+idTema);
+                    if(!rs3.next()){
+                        conexion.Insertar("insert into temainstrumento(Instrumento_idInstrumento,Tema_idTema) values("+idInstrumento+","+idTema+")");
+                    }
+                    for(int i=0;i<archivos.length;i++){
+                        int index=archivos[i].getName().lastIndexOf('.');
+                        String tipo=archivos[i].getName().substring(index+1);
+                        System.out.println(tipo);
+                        String directorio=archivos[i].getAbsolutePath();
+                        String replace = directorio.replace("\\","\\\\");
+                        ResultSet rs4=conexion.Consultar("select*from recurso where nombre='"+nombreEjercicio+"' and ubicacion='"+replace+"'");
+                        if(!rs4.next()){
+                            conexion.Insertar("insert into recurso(tipo,nombre,ubicacion,tema_idtema) values('"+tipo+"','"+nombreEjercicio+"','"+replace+"',"+idTema+")");
+                        }
+                    }
+                    String ejercicio=archivoMidi.replace("\\","\\\\");
+                    ResultSet rs5=conexion.Consultar("select*from ejercicio where nombre='"+nombreEjercicio+"' and ubicación='"+ejercicio+"'");
+                    if(!rs5.next()){
+                        conexion.Insertar("insert into ejercicio(nombre,ubicación,tema_idtema) values('"+nombreEjercicio+"','"+ejercicio+"',"+idTema+")");
+                    }
+                    ResultSet rs=conexion.Consultar("select*from ejercicio where nombre='"+nombreEjercicio+"' and ubicación='"+ejercicio+"'");
+                    rs.next();
+                    int idEjercicio=rs.getInt("idEjercicio");
+                    ResultSet rs6=conexion.Consultar("select*from ejercicioinstrumento where Ejercicio_idejercicio="+idEjercicio+" and instrumento_idinstrumento="+idInstrumento);
+                    if(!rs6.next()){
+                        conexion.Insertar("insert into ejercicioinstrumento(ejercicio_idejercicio,instrumento_idinstrumento) values ("+idEjercicio+","+idInstrumento+")");
+                    }
+                    JOptionPane.showMessageDialog(this, "Ejercicio insertado correctamente");
+                    Administrar vista=new Administrar(conexion,usuario);
+                    vista.setVisible(true);
+                    dispose();
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "Debe seleccionar instrumento y ejercicio.");
+                }
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al insertar los datos, intente nuevamente.");
+            }
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -371,7 +538,9 @@ public class AgregarEjercicios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

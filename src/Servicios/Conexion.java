@@ -1,8 +1,11 @@
 package Servicios;
 
 import Modelos.Usuario;
+import Recursos.Midi.Midi;
+import Recursos.Multimedia.Multimedia;
 import java.sql.*;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 public class Conexion {
     private Connection conexion=null;

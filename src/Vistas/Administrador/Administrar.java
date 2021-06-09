@@ -278,9 +278,14 @@ public class Administrar extends javax.swing.JFrame {
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         // TODO add your handling code here:
-        AgregarEjercicios vista=new AgregarEjercicios(conexion,usuario);
-        vista.setVisible(true);
-        dispose();
+        AgregarEjercicios vista;
+        try {
+            vista = new AgregarEjercicios(conexion,usuario);
+            vista.setVisible(true);
+            dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(Administrar.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jLabel2MouseClicked
 
     /**

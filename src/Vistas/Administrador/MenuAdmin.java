@@ -108,6 +108,9 @@ public class MenuAdmin extends javax.swing.JFrame {
         Aprende.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Aprende.png"))); // NOI18N
         Aprende.setText("Aprende");
         Aprende.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AprendeMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 AprendeMouseEntered(evt);
             }
@@ -273,6 +276,17 @@ public class MenuAdmin extends javax.swing.JFrame {
             Logger.getLogger(MenuAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_PracticaMouseClicked
+
+    private void AprendeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AprendeMouseClicked
+        try {
+            // TODO add your handling code here:
+            AprendeAdmin vista=new AprendeAdmin(conexion,usuario);
+            dispose();
+            vista.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(MenuAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_AprendeMouseClicked
 
     /**
      * @param args the command line arguments
