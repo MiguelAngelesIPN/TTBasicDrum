@@ -7,6 +7,7 @@ package Vistas.Administrador;
 
 import Modelos.Usuario;
 import Servicios.Conexion;
+import Servicios.InstrumentoMidi;
 import Servicios.OperacionesUsuario;
 import Vistas.IniciarSesion;
 import java.sql.ResultSet;
@@ -14,6 +15,9 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.sound.midi.MidiDevice;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.*;
 
 /**
  *
@@ -33,15 +37,11 @@ public final class PracticarAdmin extends javax.swing.JFrame {
         initComponents();
         this.conexion=conexion;
         this.usuario=usuario;
-        jComboBox1.setEnabled(false);
-        jComboBox2.setEnabled(false);
-        jComboBox3.setEnabled(false);
-        jComboBox1.removeAllItems();
-        jComboBox2.removeAllItems();
-        jComboBox3.removeAllItems();
+        CargarDatosInstrumento();
+        CargarDatosTema((String)jComboBox2.getSelectedItem());
+        CargarDatosEjercicio((String)jComboBox3.getSelectedItem());
         String nombre=usuario.getNombre();
         jLabel5.setText(nombre);
-        CargarDatosInstrumento();
     }
 
     /**
@@ -289,7 +289,7 @@ public final class PracticarAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             String opcion=(String) jComboBox1.getSelectedItem();
-            System.out.println(opcion);
+            System.out.println("Instrumento seleccinado: "+opcion);
             CargarDatosTema(opcion);
         } catch (SQLException ex) {
             Logger.getLogger(PracticarAdmin.class.getName()).log(Level.SEVERE, null, ex);
@@ -298,13 +298,39 @@ public final class PracticarAdmin extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
+        try{
+            if(jComboBox1.getSelectedItem().toString().equals("")||jComboBox2.getSelectedItem().toString().equals("")||jComboBox3.getSelectedItem().toString().equals(""))
+            {
+                JOptionPane.showMessageDialog(this, "Debe seleccionar un elemento en todos los campos");
+            }
+            else{
+                ResultSet ubicacionEjercicio=conexion.Consultar("select ubicación from ejercicio where nombre='"+jComboBox3.getSelectedItem().toString()+"'");
+                ubicacionEjercicio.next();
+                String ubicacion=ubicacionEjercicio.getString("ubicación");
+                InstrumentoMidi instrumento=new InstrumentoMidi();
+                System.out.println(instrumento.CantidadInstrumentos());
+                if(instrumento.CantidadInstrumentos()>0){
+                    instrumento.SeleccionarInstrumento();
+                    PracticaAdmin vista=new PracticaAdmin(conexion,usuario,ubicacion,instrumento);
+                    vista.setVisible(true);
+                    dispose();
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "No hay instrumentos disponibles.");
+                }
+                
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         // TODO add your handling code here:
         try{
             String opcion=(String)jComboBox2.getSelectedItem();
+            System.out.println("Tema seleccionado: "+opcion);
             CargarDatosEjercicio(opcion);
         }
         catch(Exception e){
@@ -350,12 +376,13 @@ public final class PracticarAdmin extends javax.swing.JFrame {
     }
     
     public void CargarDatosInstrumento() throws SQLException{
+        jComboBox1.removeAllItems();
         ResultSet rs=conexion.Consultar("select * from instrumento");
         if(rs.next()){
-            jComboBox1.setEnabled(true);
             do{
                 jComboBox1.addItem(rs.getString("Nombre"));
             }while(rs.next());
+            jComboBox1.setEnabled(true);
         }
         else{
             jComboBox1.setEnabled(false);
@@ -364,7 +391,6 @@ public final class PracticarAdmin extends javax.swing.JFrame {
     
     public void CargarDatosTema(String instrumento) throws SQLException{
         jComboBox2.removeAllItems();
-        System.out.println("Instrumento seleccionado: "+instrumento);
         ResultSet rs=conexion.Consultar("select t.nombre from tema t, temainstrumento ti, instrumento i where t.idtema=ti.tema_idtema and ti.instrumento_idinstrumento=i.idinstrumento and i.nombre='"+instrumento+"'");
         if(rs.next()){
             jComboBox2.setEnabled(true);
@@ -380,10 +406,10 @@ public final class PracticarAdmin extends javax.swing.JFrame {
         jComboBox3.removeAllItems();
         ResultSet rs=conexion.Consultar("select e.nombre from ejercicio e, ejercicioinstrumento ei, instrumento i,tema t where e.idejercicio=ei.ejercicio_idejercicio and ei.instrumento_idinstrumento=i.idinstrumento and t.idtema=e.tema_idtema and t.nombre='"+tema+"'");
         if(rs.next()){
-            jComboBox3.setEnabled(true);
             do{
                 jComboBox3.addItem(rs.getString("Nombre"));
             }while(rs.next());
+            jComboBox3.setEnabled(true);
         }
         else{
             jComboBox3.setEnabled(false);

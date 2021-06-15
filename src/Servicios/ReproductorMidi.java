@@ -63,4 +63,10 @@ public class ReproductorMidi {
     public void Reproducir(){
         sequencer.start();
     }
+    public boolean Estado(){
+        return sequencer.isRunning();
+    }
+    public void Detener(){
+        sequencer.stop();
+    }
 }
