@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vistas.Alumno;
+package Vistas.Administrador;
 
 import Modelos.Usuario;
 import Servicios.Conexion;
@@ -18,26 +18,23 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Miguel
+ * @author Miguel Angeles
  */
-public class MenuAlumno extends javax.swing.JFrame {
-    private Usuario usuario;
+public class AdministrarTemas extends javax.swing.JFrame {
     private Conexion conexion;
+    private Usuario usuario;
     private OperacionesUsuario operaciones;
     /**
-     * Creates new form MenuPrincipalAlumno
+     * Creates new form AdministrarEjercicios
      */
-    public MenuAlumno() {
+    public AdministrarTemas() {
         initComponents();
     }
 
-    public MenuAlumno(Conexion conexion,Usuario usuario) {
+    AdministrarTemas(Conexion conexion, Usuario usuario) {
         initComponents();
-        this.usuario=usuario;
         this.conexion=conexion;
-        String nombre=usuario.getNombre();
-        jLabel5.setText(nombre);
-        operaciones=new OperacionesUsuario(this.conexion);
+        this.usuario=usuario;
     }
 
     /**
@@ -57,14 +54,15 @@ public class MenuAlumno extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         Minimizar = new javax.swing.JLabel();
         Cerrar = new javax.swing.JLabel();
-        Aprende = new javax.swing.JLabel();
-        Practica = new javax.swing.JLabel();
+        Retroceder = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(817, 540));
         setUndecorated(true);
 
-        jPanel1.setMinimumSize(new java.awt.Dimension(470, 540));
-        jPanel1.setPreferredSize(new java.awt.Dimension(470, 540));
+        jPanel1.setMaximumSize(new java.awt.Dimension(470, 540));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
@@ -113,33 +111,41 @@ public class MenuAlumno extends javax.swing.JFrame {
             }
         });
 
-        Aprende.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
-        Aprende.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Aprende.png"))); // NOI18N
-        Aprende.setText("Aprende");
-        Aprende.addMouseListener(new java.awt.event.MouseAdapter() {
+        Retroceder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/icons8_Back_64px.png"))); // NOI18N
+        Retroceder.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                AprendeMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                AprendeMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                AprendeMouseExited(evt);
+                RetrocederMouseClicked(evt);
             }
         });
 
-        Practica.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
-        Practica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Practica.png"))); // NOI18N
-        Practica.setText("Practica");
-        Practica.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel1.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Agregar temas");
+        jLabel1.setMinimumSize(new java.awt.Dimension(257, 30));
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                PracticaMouseClicked(evt);
+                jLabel1MouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                PracticaMouseEntered(evt);
+                jLabel1MouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                PracticaMouseExited(evt);
+                jLabel1MouseExited(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("Editar o eliminar");
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel6MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel6MouseExited(evt);
             }
         });
 
@@ -148,28 +154,34 @@ public class MenuAlumno extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(30, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Aprende, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Retroceder)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Minimizar)
-                        .addGap(8, 8, 8)
-                        .addComponent(Cerrar))
-                    .addComponent(Practica, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Cerrar)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Retroceder)
                     .addComponent(Minimizar)
                     .addComponent(Cerrar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Aprende, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(132, 132, 132)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Practica, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -183,8 +195,11 @@ public class MenuAlumno extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -192,6 +207,7 @@ public class MenuAlumno extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCerrarActionPerformed
+        // TODO add your handling code here:
         try {
             // TODO add your handling code here:
             operaciones.CerrarSesion(usuario);
@@ -199,30 +215,9 @@ public class MenuAlumno extends javax.swing.JFrame {
             dispose();
             vista.setVisible(true);
         } catch (SQLException ex) {
-            Logger.getLogger(MenuAlumno.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Administrar.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }//GEN-LAST:event_jButtonCerrarActionPerformed
-
-    private void AprendeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AprendeMouseEntered
-        // TODO add your handling code here:
-        Aprende.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    }//GEN-LAST:event_AprendeMouseEntered
-
-    private void AprendeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AprendeMouseExited
-        // TODO add your handling code here:
-        Aprende.setBorder(null);
-    }//GEN-LAST:event_AprendeMouseExited
-
-    private void PracticaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PracticaMouseEntered
-        // TODO add your handling code here:
-        Practica.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    }//GEN-LAST:event_PracticaMouseEntered
-
-    private void PracticaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PracticaMouseExited
-        // TODO add your handling code here:
-        Practica.setBorder(null);
-    }//GEN-LAST:event_PracticaMouseExited
 
     private void MinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MinimizarMouseClicked
         // TODO add your handling code here:
@@ -237,27 +232,57 @@ public class MenuAlumno extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_CerrarMouseClicked
 
-    private void AprendeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AprendeMouseClicked
-        try {
-            // TODO add your handling code here:
-            AprendeAlumno vista=new AprendeAlumno(conexion,usuario);
-            vista.setVisible(true);
-            dispose();
-        } catch (SQLException ex) {
-            Logger.getLogger(MenuAlumno.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_AprendeMouseClicked
+    private void RetrocederMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrocederMouseClicked
+        // TODO add your handling code here:
+        MenuAdmin vista=new MenuAdmin(conexion,usuario);
+        vista.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_RetrocederMouseClicked
 
-    private void PracticaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PracticaMouseClicked
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         try {
             // TODO add your handling code here:
-            PracticarAlumno vista=new PracticarAlumno(conexion,usuario);
-            vista.setVisible(true);
             dispose();
+            AgregarTemas vista;
+            vista = new AgregarTemas(conexion,usuario);
+            vista.setVisible(true);
         } catch (SQLException ex) {
-            Logger.getLogger(MenuAlumno.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdministrarTemas.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_PracticaMouseClicked
+    }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void jLabel1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseEntered
+        // TODO add your handling code here:
+        jLabel1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    }//GEN-LAST:event_jLabel1MouseEntered
+
+    private void jLabel1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseExited
+        // TODO add your handling code here:
+        jLabel1.setBorder(null);
+    }//GEN-LAST:event_jLabel1MouseExited
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            dispose();
+            AdminTemas vista;
+            vista = new AdminTemas(conexion,usuario);
+            vista.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(AdministrarTemas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jLabel6MouseClicked
+
+    private void jLabel6MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseEntered
+        // TODO add your handling code here:
+        jLabel6.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    }//GEN-LAST:event_jLabel6MouseEntered
+
+    private void jLabel6MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseExited
+        // TODO add your handling code here:
+        jLabel6.setBorder(null);
+    }//GEN-LAST:event_jLabel6MouseExited
 
     /**
      * @param args the command line arguments
@@ -276,36 +301,35 @@ public class MenuAlumno extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuAlumno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdministrarTemas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuAlumno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdministrarTemas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuAlumno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdministrarTemas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuAlumno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdministrarTemas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuAlumno().setVisible(true);
+                new AdministrarTemas().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Aprende;
     private javax.swing.JLabel Cerrar;
     private javax.swing.JLabel Minimizar;
-    private javax.swing.JLabel Practica;
+    private javax.swing.JLabel Retroceder;
     private javax.swing.JButton jButtonCerrar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables

@@ -35,10 +35,8 @@ public final class AprendeAdmin extends javax.swing.JFrame {
         this.usuario=usuario;
         jComboBox1.setEnabled(false);
         jComboBox2.setEnabled(false);
-        jComboBox3.setEnabled(false);
         jComboBox1.removeAllItems();
         jComboBox2.removeAllItems();
-        jComboBox3.removeAllItems();
         String nombre=usuario.getNombre();
         jLabel5.setText(nombre);
         CargarDatosInstrumento();
@@ -64,9 +62,7 @@ public final class AprendeAdmin extends javax.swing.JFrame {
         Cerrar = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
@@ -146,9 +142,6 @@ public final class AprendeAdmin extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
-        jLabel6.setText("Selecciona el ejercicio:");
-
         jComboBox2.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox2.addActionListener(new java.awt.event.ActionListener() {
@@ -156,9 +149,6 @@ public final class AprendeAdmin extends javax.swing.JFrame {
                 jComboBox2ActionPerformed(evt);
             }
         });
-
-        jComboBox3.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jButton1.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
         jButton1.setText("Iniciar");
@@ -176,31 +166,23 @@ public final class AprendeAdmin extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(Retroceder)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Minimizar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Cerrar))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel1))
+                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(Retroceder)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Minimizar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Cerrar))
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addComponent(jLabel6)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addComponent(jLabel1))
-                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(112, 112, 112)
@@ -223,11 +205,7 @@ public final class AprendeAdmin extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(87, 87, 87)
                 .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -299,10 +277,10 @@ public final class AprendeAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        String ubicacion=jComboBox3.getSelectedItem().toString();
-        try {
-            VisualizadorAdmin vista = new VisualizadorAdmin(conexion, usuario, ubicacion);
+        try {                                         
+            // TODO add your handling code here:
+            ResultSet rs=conexion.Consultar("select r.* from recurso r,tema t where r.tema_idtema=t.idtema and t.nombre='"+jComboBox2.getSelectedItem().toString()+"'");
+            VisualizadorAdmin vista = new VisualizadorAdmin(conexion, usuario, rs);
             vista.setVisible(true);
             dispose();
         } catch (SQLException ex) {
@@ -314,7 +292,6 @@ public final class AprendeAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
             String opcion=(String)jComboBox2.getSelectedItem();
-            CargarDatosEjercicio(opcion);
         }
         catch(Exception e){
             
@@ -387,19 +364,6 @@ public final class AprendeAdmin extends javax.swing.JFrame {
             jComboBox2.setEnabled(false);
         }
     }
-    public void CargarDatosEjercicio(String tema) throws SQLException{
-        jComboBox3.removeAllItems();
-        ResultSet rs=conexion.Consultar("select e.nombre from ejercicio e, ejercicioinstrumento ei, instrumento i,tema t where e.idejercicio=ei.ejercicio_idejercicio and ei.instrumento_idinstrumento=i.idinstrumento and t.idtema=e.tema_idtema and t.nombre='"+tema+"'");
-        if(rs.next()){
-            jComboBox3.setEnabled(true);
-            do{
-                jComboBox3.addItem(rs.getString("Nombre"));
-            }while(rs.next());
-        }
-        else{
-            jComboBox3.setEnabled(false);
-        }
-    }
         
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Cerrar;
@@ -409,13 +373,11 @@ public final class AprendeAdmin extends javax.swing.JFrame {
     private javax.swing.JButton jButtonCerrar;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables

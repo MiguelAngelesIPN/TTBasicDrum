@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vistas.Administrador;
+package Vistas.Alumno;
 
+import Vistas.Administrador.*;
 import Modelos.Usuario;
 import Servicios.Conexion;
 import Servicios.InstrumentoMidi;
@@ -21,7 +22,7 @@ import Modelos.Ejercicio;
  *
  * @author Miguel Angeles
  */
-public final class PracticarAdmin extends javax.swing.JFrame {
+public final class PracticarAlumno extends javax.swing.JFrame {
     private Conexion conexion;
     private Usuario usuario;
     private OperacionesUsuario operaciones;
@@ -29,10 +30,10 @@ public final class PracticarAdmin extends javax.swing.JFrame {
     /**
      * Creates new form Practicar
      */
-    public PracticarAdmin() {
+    public PracticarAlumno() {
         initComponents();
     }
-    public PracticarAdmin(Conexion conexion, Usuario usuario) throws SQLException{
+    public PracticarAlumno(Conexion conexion, Usuario usuario) throws SQLException{
         initComponents();
         this.conexion=conexion;
         this.usuario=usuario;
@@ -72,7 +73,6 @@ public final class PracticarAdmin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-        setMaximumSize(new java.awt.Dimension(817, 540));
         setMinimumSize(new java.awt.Dimension(817, 540));
         setUndecorated(true);
         setResizable(false);
@@ -254,7 +254,7 @@ public final class PracticarAdmin extends javax.swing.JFrame {
 
     private void RetrocederMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrocederMouseClicked
         // TODO add your handling code here:
-        MenuAdmin vista=new MenuAdmin(conexion,usuario);
+        MenuAlumno vista=new MenuAlumno(conexion,usuario);
         vista.setVisible(true);
         dispose();
     }//GEN-LAST:event_RetrocederMouseClicked
@@ -280,7 +280,7 @@ public final class PracticarAdmin extends javax.swing.JFrame {
             dispose();
             vista.setVisible(true);
         } catch (SQLException ex) {
-            Logger.getLogger(PracticarAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PracticarAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_jButtonCerrarActionPerformed
@@ -292,7 +292,7 @@ public final class PracticarAdmin extends javax.swing.JFrame {
             System.out.println("Instrumento seleccinado: "+opcion);
             CargarDatosTema(opcion);
         } catch (SQLException ex) {
-            Logger.getLogger(PracticarAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PracticarAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
@@ -312,10 +312,9 @@ public final class PracticarAdmin extends javax.swing.JFrame {
                 ejercicio.setIdTema(Integer.parseInt(ubicacionEjercicio.getString("Tema_idTema")));
                 ejercicio.setPentagrama(ubicacionEjercicio.getString("pentagrama"));
                 InstrumentoMidi instrumento=new InstrumentoMidi();
-                System.out.println(instrumento.CantidadInstrumentos());
                 if(instrumento.CantidadInstrumentos()>0){
                     instrumento.SeleccionarInstrumento();
-                    PracticaAdmin vista=new PracticaAdmin(conexion,usuario,ejercicio,instrumento);
+                    PracticaAlumno vista=new PracticaAlumno(conexion,usuario,ejercicio,instrumento);
                     vista.setVisible(true);
                     dispose();
                 }
@@ -360,21 +359,27 @@ public final class PracticarAdmin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PracticarAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PracticarAlumno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PracticarAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PracticarAlumno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PracticarAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PracticarAlumno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PracticarAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PracticarAlumno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PracticarAdmin().setVisible(true);
+                new PracticarAlumno().setVisible(true);
             }
         });
     }

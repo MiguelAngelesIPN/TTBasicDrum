@@ -13,21 +13,21 @@ public class Comparador {
     public Comparador(String midi1,String midi2){
         this.midi1=midi1;
         this.midi2=midi2;
+        System.out.println(midi2);
     }
     public void ObtenerDatos() throws InvalidMidiDataException, IOException{
         Sequence archivo1=MidiSystem.getSequence(new File(midi1));
         Sequence archivo2=MidiSystem.getSequence(new File(midi2));
         Track[] trackArchivo1=archivo1.getTracks();
         Track[] trackArchivo2=archivo2.getTracks();
+        System.out.println(trackArchivo2.length);
         Track track1=trackArchivo1[0];
         Track track2=trackArchivo2[0];
         mensajes1=new ArrayList<>();
         mensajes2=new ArrayList<>();
-        //System.out.println("Track 1. Resolucion: "+archivo1.getResolution()+" Tamaño: "+track1.size());
         Comparacion(track1,mensajes1);
-        //System.out.println("Track 2. Resolucion: "+archivo2.getResolution()+" Tamaño: "+track2.size());
         Comparacion(track2,mensajes2);
-        total=mensajes1.size();
+        total=mensajes2.size();
         ImprimeArrays();
         Comparar();
     }
@@ -68,7 +68,7 @@ public class Comparador {
         }
         System.out.println();
     }
-    private int AsignarNota(){
+    public int AsignarNota(){
         int puntaje;
         puntaje=(Aciertos*10)/total;
         System.out.println("Puntaje: "+puntaje);

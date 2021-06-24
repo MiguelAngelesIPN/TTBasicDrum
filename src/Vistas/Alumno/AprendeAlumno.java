@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vistas.Administrador;
+package Vistas.Alumno;
 
+import Vistas.Administrador.*;
 import Modelos.Usuario;
 import Servicios.Conexion;
-import Servicios.InstrumentoMidi;
 import Servicios.OperacionesUsuario;
 import Vistas.IniciarSesion;
 import java.sql.ResultSet;
@@ -15,33 +15,34 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import Modelos.Ejercicio;
 
 /**
  *
  * @author Miguel Angeles
  */
-public final class PracticarAdmin extends javax.swing.JFrame {
+public final class AprendeAlumno extends javax.swing.JFrame {
     private Conexion conexion;
     private Usuario usuario;
     private OperacionesUsuario operaciones;
-    private Ejercicio ejercicio;
     /**
      * Creates new form Practicar
      */
-    public PracticarAdmin() {
+    public AprendeAlumno() {
         initComponents();
     }
-    public PracticarAdmin(Conexion conexion, Usuario usuario) throws SQLException{
+    public AprendeAlumno(Conexion conexion, Usuario usuario) throws SQLException{
         initComponents();
         this.conexion=conexion;
         this.usuario=usuario;
-        CargarDatosInstrumento();
-        CargarDatosTema((String)jComboBox2.getSelectedItem());
-        CargarDatosEjercicio((String)jComboBox3.getSelectedItem());
+        jComboBox1.setEnabled(false);
+        jComboBox2.setEnabled(false);
+        jComboBox3.setEnabled(false);
+        jComboBox1.removeAllItems();
+        jComboBox2.removeAllItems();
+        jComboBox3.removeAllItems();
         String nombre=usuario.getNombre();
         jLabel5.setText(nombre);
-        ejercicio=new Ejercicio();
+        CargarDatosInstrumento();
     }
 
     /**
@@ -72,7 +73,6 @@ public final class PracticarAdmin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-        setMaximumSize(new java.awt.Dimension(817, 540));
         setMinimumSize(new java.awt.Dimension(817, 540));
         setUndecorated(true);
         setResizable(false);
@@ -254,7 +254,7 @@ public final class PracticarAdmin extends javax.swing.JFrame {
 
     private void RetrocederMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrocederMouseClicked
         // TODO add your handling code here:
-        MenuAdmin vista=new MenuAdmin(conexion,usuario);
+        MenuAlumno vista=new MenuAlumno(conexion,usuario);
         vista.setVisible(true);
         dispose();
     }//GEN-LAST:event_RetrocederMouseClicked
@@ -280,7 +280,7 @@ public final class PracticarAdmin extends javax.swing.JFrame {
             dispose();
             vista.setVisible(true);
         } catch (SQLException ex) {
-            Logger.getLogger(PracticarAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AprendeAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_jButtonCerrarActionPerformed
@@ -289,44 +289,22 @@ public final class PracticarAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             String opcion=(String) jComboBox1.getSelectedItem();
-            System.out.println("Instrumento seleccinado: "+opcion);
+            System.out.println(opcion);
             CargarDatosTema(opcion);
         } catch (SQLException ex) {
-            Logger.getLogger(PracticarAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AprendeAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        try{
-            if(jComboBox1.getSelectedItem().toString().equals("")||jComboBox2.getSelectedItem().toString().equals("")||jComboBox3.getSelectedItem().toString().equals(""))
-            {
-                JOptionPane.showMessageDialog(this, "Debe seleccionar un elemento en todos los campos");
-            }
-            else{
-                ResultSet ubicacionEjercicio=conexion.Consultar("select * from ejercicio where nombre='"+jComboBox3.getSelectedItem().toString()+"'");
-                ubicacionEjercicio.next();
-                ejercicio.setIdEjercicio(Integer.parseInt(ubicacionEjercicio.getString("idEjercicio")));
-                ejercicio.setNombre(ubicacionEjercicio.getString("nombre"));
-                ejercicio.setUbicacion(ubicacionEjercicio.getString("ubicación"));
-                ejercicio.setIdTema(Integer.parseInt(ubicacionEjercicio.getString("Tema_idTema")));
-                ejercicio.setPentagrama(ubicacionEjercicio.getString("pentagrama"));
-                InstrumentoMidi instrumento=new InstrumentoMidi();
-                System.out.println(instrumento.CantidadInstrumentos());
-                if(instrumento.CantidadInstrumentos()>0){
-                    instrumento.SeleccionarInstrumento();
-                    PracticaAdmin vista=new PracticaAdmin(conexion,usuario,ejercicio,instrumento);
-                    vista.setVisible(true);
-                    dispose();
-                }
-                else{
-                    JOptionPane.showMessageDialog(this, "No hay instrumentos disponibles.");
-                }
-                
-            }
-        }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(this, e.getMessage());
+        String ubicacion=jComboBox3.getSelectedItem().toString();
+        try {
+            VisualizadorAlumno vista = new VisualizadorAlumno(conexion, usuario, ubicacion);
+            vista.setVisible(true);
+            dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(AprendeAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -334,7 +312,6 @@ public final class PracticarAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
             String opcion=(String)jComboBox2.getSelectedItem();
-            System.out.println("Tema seleccionado: "+opcion);
             CargarDatosEjercicio(opcion);
         }
         catch(Exception e){
@@ -360,33 +337,46 @@ public final class PracticarAdmin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PracticarAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AprendeAlumno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PracticarAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AprendeAlumno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PracticarAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AprendeAlumno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PracticarAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AprendeAlumno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PracticarAdmin().setVisible(true);
+                new AprendeAlumno().setVisible(true);
             }
         });
     }
     
     public void CargarDatosInstrumento() throws SQLException{
-        jComboBox1.removeAllItems();
         ResultSet rs=conexion.Consultar("select * from instrumento");
         if(rs.next()){
+            jComboBox1.setEnabled(true);
             do{
                 jComboBox1.addItem(rs.getString("Nombre"));
             }while(rs.next());
-            jComboBox1.setEnabled(true);
         }
         else{
             jComboBox1.setEnabled(false);
@@ -395,6 +385,7 @@ public final class PracticarAdmin extends javax.swing.JFrame {
     
     public void CargarDatosTema(String instrumento) throws SQLException{
         jComboBox2.removeAllItems();
+        System.out.println("Instrumento seleccionado: "+instrumento);
         ResultSet rs=conexion.Consultar("select t.nombre from tema t, temainstrumento ti, instrumento i where t.idtema=ti.tema_idtema and ti.instrumento_idinstrumento=i.idinstrumento and i.nombre='"+instrumento+"'");
         if(rs.next()){
             jComboBox2.setEnabled(true);
@@ -410,10 +401,10 @@ public final class PracticarAdmin extends javax.swing.JFrame {
         jComboBox3.removeAllItems();
         ResultSet rs=conexion.Consultar("select e.nombre from ejercicio e, ejercicioinstrumento ei, instrumento i,tema t where e.idejercicio=ei.ejercicio_idejercicio and ei.instrumento_idinstrumento=i.idinstrumento and t.idtema=e.tema_idtema and t.nombre='"+tema+"'");
         if(rs.next()){
+            jComboBox3.setEnabled(true);
             do{
                 jComboBox3.addItem(rs.getString("Nombre"));
             }while(rs.next());
-            jComboBox3.setEnabled(true);
         }
         else{
             jComboBox3.setEnabled(false);

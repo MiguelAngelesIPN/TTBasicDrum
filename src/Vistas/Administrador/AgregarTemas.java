@@ -10,7 +10,7 @@ import Servicios.Conexion;
 import Servicios.OperacionesUsuario;
 import Vistas.IniciarSesion;
 import java.awt.HeadlessException;
-import java.io.*;
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -23,20 +23,19 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  *
  * @author Miguel Angeles
  */
-public class AgregarEjercicios extends javax.swing.JFrame {
+public class AgregarTemas extends javax.swing.JFrame {
     private Conexion conexion;
     private Usuario usuario;
     private OperacionesUsuario operaciones;
     private File[] archivos;
-    private String archivoMidi,pentagrama;
     /**
      * Creates new form AgregarEjercicios
      */
-    public AgregarEjercicios() {
+    public AgregarTemas() {
         initComponents();
     }
     
-    public AgregarEjercicios(Conexion conexion,Usuario usuario) throws SQLException {
+    public AgregarTemas(Conexion conexion,Usuario usuario) throws SQLException {
         initComponents();
         this.conexion=conexion;
         this.usuario=usuario;
@@ -44,11 +43,8 @@ public class AgregarEjercicios extends javax.swing.JFrame {
         String nombre=usuario.getNombre();
         jLabel5.setText(nombre);
         jComboBox1.removeAllItems();
-        jComboBox2.removeAllItems();
         Instrumentos();
         archivos=null;
-        archivoMidi=null;
-        pentagrama=null;
     }
     
     /**
@@ -72,11 +68,7 @@ public class AgregarEjercicios extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jLabel7 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
@@ -144,16 +136,6 @@ public class AgregarEjercicios extends javax.swing.JFrame {
 
         jComboBox1.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-        jComboBox1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jComboBox1KeyReleased(evt);
-            }
-        });
 
         jLabel1.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel1.setText("Seleccione el instrumento:");
@@ -161,40 +143,22 @@ public class AgregarEjercicios extends javax.swing.JFrame {
         jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         jLabel2.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        jLabel2.setText("Seleccione el tema:");
+        jLabel2.setText("Ingrese el nombre del tema:");
         jLabel2.setToolTipText("");
         jLabel2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        jComboBox2.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.setEnabled(false);
-
-        jLabel7.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        jLabel7.setText("Seleccione archivo MIDI");
-
-        jButton2.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        jButton2.setText("Seleccionar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         jButton3.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
-        jButton3.setText("Crear ejercicio");
+        jButton3.setText("Crear tema");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        jLabel8.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        jLabel8.setText("Ingrese el nombre del ejercicio:");
-
         jTextField1.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
 
         jLabel9.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        jLabel9.setText("Seleccione imagen de pentagrama:");
+        jLabel9.setText("Seleccione los recursos:");
 
         jButton4.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jButton4.setText("Seleccionar");
@@ -214,47 +178,33 @@ public class AgregarEjercicios extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jTextField1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGap(10, 10, 10)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                            .addGap(226, 226, 226)
-                                            .addComponent(Retroceder)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(Minimizar)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(Cerrar))
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel8)))
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                .addGap(226, 226, 226)
+                                .addComponent(Retroceder)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Minimizar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Cerrar))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addGap(70, 70, 70))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(113, 113, 113)
-                        .addComponent(jButton2))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(113, 113, 113)
                         .addComponent(jButton4))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel9))))
+                        .addComponent(jLabel9)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton3)
+                .addGap(92, 92, 92))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -264,29 +214,21 @@ public class AgregarEjercicios extends javax.swing.JFrame {
                     .addComponent(Retroceder)
                     .addComponent(Minimizar)
                     .addComponent(Cerrar))
-                .addGap(17, 17, 17)
+                .addGap(86, 86, 86)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton4)
-                .addGap(18, 18, 18)
+                .addGap(66, 66, 66)
                 .addComponent(jButton3)
-                .addGap(66, 66, 66))
+                .addGap(90, 90, 90))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -319,15 +261,6 @@ public class AgregarEjercicios extends javax.swing.JFrame {
         }
     }
     
-    private void Tema() throws SQLException{
-        jComboBox2.removeAllItems();
-        String comando="select t.nombre from tema t,temainstrumento ti,instrumento i where i.nombre='"+jComboBox1.getSelectedItem()+"' and i.idInstrumento=ti.Instrumento_idInstrumento and ti.Tema_idTema=t.idTema";
-        ResultSet rs=conexion.Consultar(comando);
-        while(rs.next()){
-            jComboBox2.addItem(rs.getString("nombre"));    
-        }
-    }
-    
     private void jButtonCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCerrarActionPerformed
         try {
             // TODO add your handling code here:
@@ -343,7 +276,7 @@ public class AgregarEjercicios extends javax.swing.JFrame {
 
     private void RetrocederMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrocederMouseClicked
         // TODO add your handling code here:
-        MenuAdmin vista=new MenuAdmin(conexion,usuario);
+        AdministrarTemas vista=new AdministrarTemas(conexion,usuario);
         vista.setVisible(true);
         dispose();
     }//GEN-LAST:event_RetrocederMouseClicked
@@ -361,83 +294,49 @@ public class AgregarEjercicios extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_CerrarMouseClicked
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-        try {
-            Tema();
-            jComboBox2.setEnabled(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(AgregarEjercicios.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    private void jComboBox1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox1KeyReleased
-        // TODO add your handling code here:
-        try {
-            Tema();
-            jComboBox2.setEnabled(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(AgregarEjercicios.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jComboBox1KeyReleased
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        JFileChooser chooser=new JFileChooser();
-        FileNameExtensionFilter filter=new FileNameExtensionFilter("MIDI","mid");
-        chooser.setFileFilter(filter);
-        int abrir=chooser.showOpenDialog(this);
-        if(abrir==0){
-            archivoMidi=chooser.getSelectedFile().getAbsolutePath();
-            System.out.println("Archivo seleccionado "+archivoMidi);
-        }
-        else{
-            JOptionPane.showMessageDialog(this, "No se seleccionó ningun archivo");
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        String nombreEjercicio=jTextField1.getText();
-        if(archivoMidi==null||nombreEjercicio.equals("")||pentagrama==null){
+        String tema=jTextField1.getText();
+        if(archivos==null||tema.equals("")){
             JOptionPane.showMessageDialog(this, "Por favor complete los datos.");
         }
         else{
             try {
-                if(jComboBox1.isEnabled()&&jComboBox2.isEnabled()){
-                    String instrumento=jComboBox1.getSelectedItem().toString();
-                    String tema=jComboBox2.getSelectedItem().toString();
-                    ResultSet rs1=conexion.Consultar("select*from instrumento where nombre='"+instrumento+"'");
-                    ResultSet rs2=conexion.Consultar("select*from tema where nombre='"+tema+"'");
-                    rs1.next();
-                    int idInstrumento=rs1.getInt("idInstrumento");
+                String instrumento=jComboBox1.getSelectedItem().toString();
+                String nombreEjercicio=jTextField1.getText();
+                ResultSet rs1=conexion.Consultar("select*from instrumento where nombre='"+instrumento+"'");
+                ResultSet rs2=conexion.Consultar("select*from tema where nombre='"+tema+"'");
+                rs1.next();
+                int idInstrumento=rs1.getInt("idInstrumento");
+                if(!rs2.next()){
+                    String Descripcion=JOptionPane.showInputDialog(this,"Ingrese una breve descripción del tema:");
+                    conexion.Insertar("insert into tema(nombre,descripción) values ('"+tema+"','"+Descripcion+"')");
+                    rs2=conexion.Consultar("select*from tema where nombre='"+tema+"'");
                     rs2.next();
-                    int idTema=rs2.getInt("idTema");
-                    System.out.println(idInstrumento+" "+idTema);
-                    String ejercicio=archivoMidi.replace("\\","\\\\");
-                    String penta=pentagrama.replace("\\","\\\\");
-                    ResultSet rs5=conexion.Consultar("select*from ejercicio where nombre='"+nombreEjercicio+"' and ubicación='"+ejercicio+"'");
-                    if(!rs5.next()){
-                        conexion.Insertar("insert into ejercicio(nombre,ubicación,tema_idtema,pentagrama) values('"+nombreEjercicio+"','"+ejercicio+"',"+idTema+",'"+penta+"')");
-                    }
-                    ResultSet rs=conexion.Consultar("select*from ejercicio where nombre='"+nombreEjercicio+"' and ubicación='"+ejercicio+"'");
-                    rs.next();
-                    int idEjercicio=rs.getInt("idEjercicio");
-                    ResultSet rs6=conexion.Consultar("select*from ejercicioinstrumento where Ejercicio_idejercicio="+idEjercicio+" and instrumento_idinstrumento="+idInstrumento);
-                    if(!rs6.next()){
-                        conexion.Insertar("insert into ejercicioinstrumento(ejercicio_idejercicio,instrumento_idinstrumento) values ("+idEjercicio+","+idInstrumento+")");
-                    }
-                    JOptionPane.showMessageDialog(this, "Ejercicio insertado correctamente");
-                    Administrar vista=new Administrar(conexion,usuario);
-                    vista.setVisible(true);
-                    dispose();
                 }
-                else{
-                    JOptionPane.showMessageDialog(this, "Debe seleccionar instrumento y ejercicio.");
+                int idTema=rs2.getInt("idTema");
+                for (File archivo : archivos) {
+                    int index = archivo.getName().lastIndexOf('.');
+                    String tipo = archivo.getName().substring(index+1);
+                    System.out.println(tipo);
+                    String directorio = archivo.getAbsolutePath();
+                    String replace = directorio.replace("\\","\\\\");
+                    ResultSet rs4=conexion.Consultar("select*from recurso where nombre='"+nombreEjercicio+"' and ubicacion='"+replace+"'");
+                    if(!rs4.next()){
+                        conexion.Insertar("insert into recurso(tipo,nombre,ubicacion,tema_idtema) values('"+tipo+"','"+nombreEjercicio+"','"+replace+"',"+idTema+")");
+                    }
                 }
-                
+                ResultSet temainstrumento=conexion.Consultar("select * from temainstrumento where instrumento_idinstrumento="+idInstrumento+" and tema_idTema="+idTema);
+                if(!temainstrumento.next()){
+                    conexion.Insertar("insert into temainstrumento(instrumento_idinstrumento,tema_idTema) values("+idInstrumento+","+idTema+")");
+                }
+                JOptionPane.showMessageDialog(this, "Tema agregado correctamente");
+                Administrar vista=new Administrar(conexion,usuario);
+                vista.setVisible(true);
+                dispose();
             } catch (HeadlessException | SQLException e) {
                 JOptionPane.showMessageDialog(this, "Error al insertar los datos, intente nuevamente.");
+                System.out.println(e.getMessage());
             }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -445,12 +344,12 @@ public class AgregarEjercicios extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         JFileChooser chooser=new JFileChooser();
-        FileNameExtensionFilter filter=new FileNameExtensionFilter("Imagen","jpg","png","gif");
+        chooser.setMultiSelectionEnabled(true);
+        FileNameExtensionFilter filter=new FileNameExtensionFilter("Imagen","jpg","png","gif","mp4","wmv","3gp");
         chooser.setFileFilter(filter);
         int abrir=chooser.showOpenDialog(this);
         if(abrir==0){
-            pentagrama=chooser.getSelectedFile().getAbsolutePath();
-            System.out.println("Archivo seleccionado "+pentagrama);
+            archivos=chooser.getSelectedFiles();
         }
         else{
             JOptionPane.showMessageDialog(this, "No se seleccionó ningun archivo");
@@ -474,20 +373,21 @@ public class AgregarEjercicios extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AgregarEjercicios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarTemas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AgregarEjercicios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarTemas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AgregarEjercicios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarTemas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AgregarEjercicios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarTemas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AgregarEjercicios().setVisible(true);
+                new AgregarTemas().setVisible(true);
             }
         });
     }
@@ -496,19 +396,15 @@ public class AgregarEjercicios extends javax.swing.JFrame {
     private javax.swing.JLabel Cerrar;
     private javax.swing.JLabel Minimizar;
     private javax.swing.JLabel Retroceder;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButtonCerrar;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

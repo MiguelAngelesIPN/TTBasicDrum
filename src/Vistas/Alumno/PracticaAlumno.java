@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vistas.Administrador;
+package Vistas.Alumno;
 
+import Vistas.Administrador.*;
 import Modelos.Ejercicio;
 import Modelos.Usuario;
 import Servicios.Comparador;
@@ -27,7 +28,7 @@ import javax.swing.JOptionPane;
  *
  * @author Miguel Angeles
  */
-public class PracticaAdmin extends javax.swing.JFrame {
+public class PracticaAlumno extends javax.swing.JFrame {
     private Conexion conexion;
     private Usuario usuario;
     private int tempo;
@@ -37,16 +38,16 @@ public class PracticaAdmin extends javax.swing.JFrame {
     /**
      * Creates new form PracticaAdmin
      */
-    public PracticaAdmin() {
+    public PracticaAlumno() {
         initComponents();
     }
-    public PracticaAdmin(Conexion conexion,Usuario usuario,Ejercicio ejercicio,InstrumentoMidi instrumento) throws MidiUnavailableException{
+    public PracticaAlumno(Conexion conexion,Usuario usuario,Ejercicio ejercicio,InstrumentoMidi instrumento) throws MidiUnavailableException{
         initComponents();
         this.conexion=conexion;
         this.usuario=usuario;
         this.ejercicio=ejercicio;
         this.instrumento=instrumento;
-        System.out.println(ejercicio.getPentagrama());
+        System.out.println(ejercicio.getUbicacion());
         rsscalelabel.RSScaleLabel.setScaleLabel(jLabel2, ejercicio.getPentagrama());
     }
 
@@ -70,7 +71,6 @@ public class PracticaAdmin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-        setMaximumSize(new java.awt.Dimension(817, 540));
         setMinimumSize(new java.awt.Dimension(817, 540));
         setUndecorated(true);
         setResizable(false);
@@ -207,37 +207,40 @@ public class PracticaAdmin extends javax.swing.JFrame {
             reproductor.Detener();
             reproductor.Cerrar();
             instrumento.DetenerGrabacion();
+            reproductor.Cerrar();
             String nombreArchivo=instrumento.DevolverArchivo().getAbsolutePath();
+            instrumento.Cerrar();
+            long inicial=System.currentTimeMillis();
             Comparador comparador=new Comparador(nombreArchivo,ejercicio.getUbicacion());
             comparador.ObtenerDatos();
             float puntaje=comparador.AsignarNota();
-            reproductor.Cerrar();
-            instrumento.Cerrar();
+            long fin=System.currentTimeMillis()-inicial;
+            System.out.println(fin);
             Date objDate=new Date(System.currentTimeMillis());
             EjercicioPracticado ejercicioPracticado=new EjercicioPracticado(objDate,puntaje,tiempo,usuario.getID(),ejercicio.getIdEjercicio());
-            ResultadosPractica vista=new ResultadosPractica(conexion,usuario,ejercicioPracticado);
+            ResultadosPracticaAlumno vista=new ResultadosPracticaAlumno(conexion,usuario,ejercicioPracticado);
             vista.setVisible(true);
             dispose();
 
         } catch (MidiUnavailableException ex) {
-            Logger.getLogger(PracticaAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PracticaAlumno.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(PracticaAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PracticaAlumno.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidMidiDataException ex) {
-            Logger.getLogger(PracticaAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PracticaAlumno.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
-            Logger.getLogger(PracticaAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PracticaAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void RetrocederMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrocederMouseClicked
         try {
             // TODO add your handling code here:
-            PracticarAdmin vista=new PracticarAdmin(conexion,usuario);
+            PracticarAlumno vista=new PracticarAlumno(conexion,usuario);
             vista.setVisible(true);
             dispose();
         } catch (SQLException ex) {
-            Logger.getLogger(PracticaAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PracticaAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_RetrocederMouseClicked
 
@@ -272,20 +275,23 @@ public class PracticaAdmin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PracticaAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PracticaAlumno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PracticaAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PracticaAlumno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PracticaAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PracticaAlumno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PracticaAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PracticaAlumno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PracticaAdmin().setVisible(true);
+                new PracticaAlumno().setVisible(true);
             }
         });
     }

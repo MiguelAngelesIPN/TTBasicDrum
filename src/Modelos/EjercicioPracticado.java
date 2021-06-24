@@ -1,6 +1,7 @@
 package Modelos;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 public class EjercicioPracticado {
     private Integer idEjercicioPracticado;
@@ -19,8 +20,7 @@ public class EjercicioPracticado {
         this.idEjercicio = null;
     }
 
-    public EjercicioPracticado(Integer idEjercicioPracticado, Date FechaPractica, Float puntaje, Integer velocidadPractica, Integer idUsuario, Integer idEjercicio) {
-        this.idEjercicioPracticado = idEjercicioPracticado;
+    public EjercicioPracticado(Date FechaPractica, Float puntaje, Integer velocidadPractica, Integer idUsuario, Integer idEjercicio) {
         this.FechaPractica = FechaPractica;
         this.puntaje = puntaje;
         this.velocidadPractica = velocidadPractica;
@@ -75,6 +75,9 @@ public class EjercicioPracticado {
     public void setIdEjercicio(Integer idEjercicio) {
         this.idEjercicio = idEjercicio;
     }
-    
+    public String getFechaString(){
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(FechaPractica);
+    }
     
 }

@@ -6,10 +6,22 @@
 package Vistas.Administrador;
 
 import Modelos.Usuario;
+import Recursos.Multimedia.Multimedia;
 import Servicios.Conexion;
+import java.awt.BorderLayout;
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javax.swing.JOptionPane;
 /**
  *
@@ -18,29 +30,86 @@ import javax.swing.JOptionPane;
 public class VisualizadorAdmin extends javax.swing.JFrame {
     private Conexion conexion;
     private Usuario usuario;
-    private ArrayList<String> ubicacion;
+    private ResultSet resultados;
+    private ArrayList<Multimedia> archivos;
+    private final JFXPanel jfxPanel=new JFXPanel();
+    private int index, tamanio;
+    private MediaPlayer video;
+    private File file;
     /**
      * Creates new form VisualizadorAdmin
      */
     public VisualizadorAdmin() {
         initComponents();
     }
-    public VisualizadorAdmin(Conexion conexion,Usuario usuario, String ubicacion) throws SQLException{
+    public VisualizadorAdmin(Conexion conexion,Usuario usuario, ResultSet resultados) throws SQLException{
         initComponents();
         this.conexion=conexion;
         this.usuario=usuario;
-        
-        System.out.print(ubicacion);
-        ResultSet rs=conexion.Consultar("select*from recurso where nombre='"+ubicacion+"'");
-        if(rs.next()){
-            String tipo=rs.getString("tipo");
-            System.out.println(tipo);
+        this.resultados=resultados;
+        this.archivos=new ArrayList<>();
+        this.video=null;
+        this.tamanio=0;
+        this.index=0;
+        while(this.resultados.next()){
+            String tipo=resultados.getString("Tipo");
+            String nombre=resultados.getString("Nombre");
+            String ubicacion=resultados.getString("Ubicacion");
+            Multimedia elemento=new Multimedia(nombre,ubicacion,tipo);
+            archivos.add(elemento);
+        }
+        if(archivos.isEmpty()){
+            JOptionPane.showMessageDialog(this, "No hay archivos disponibles");
+            AprendeAdmin vista=new AprendeAdmin(conexion,usuario);
+            vista.setVisible(true);
+            dispose();
         }
         else{
-            JOptionPane.showMessageDialog(this, "Error");
+            tamanio=archivos.size();
+            System.out.println("tamaño: "+tamanio);
+            index=0;
+            SeleccionArchivo();
         }
     }
-
+    private void SeleccionArchivo(){
+        if(archivos.get(index).getTipo().equals("jpg")||archivos.get(index).getTipo().equals("png")||archivos.get(index).getTipo().equals("gif")){
+                jPanel1.setVisible(false);
+                jLabel1.setVisible(true);
+                rsscalelabel.RSScaleLabel.setScaleLabel(jLabel1, archivos.get(index).getUbicacion());
+            }
+            else{
+                jPanel1.removeAll();
+                jPanel1.setVisible(true);
+                jLabel1.setVisible(false);
+                jPanel1.setLayout(new BorderLayout());
+                jPanel1.add(jfxPanel,BorderLayout.CENTER);
+                createScene();
+            }
+    }
+    private void createScene(){
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run() {
+                file=new File(archivos.get(index).getUbicacion());
+                video=new MediaPlayer(
+                    new Media(file.toURI().toString())
+                );
+                jfxPanel.setScene(new Scene(new Group(new MediaView(video))));
+                video.setVolume(0.7);
+                video.play();
+                
+            }
+            
+        });
+    }
+    private void Detener(){
+        if(video!=null){
+            video.stop();
+            video.dispose();
+            //video=null;
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,10 +119,14 @@ public class VisualizadorAdmin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         Retroceder = new javax.swing.JLabel();
         Minimizar = new javax.swing.JLabel();
         Cerrar = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -62,12 +135,49 @@ public class VisualizadorAdmin extends javax.swing.JFrame {
         setUndecorated(true);
         setResizable(false);
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, 680, 474));
+
+        jButton1.setText("<");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, -1, 40));
+
+        jButton2.setText(">");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 265, 40, 40));
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(640, 360));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 640, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 360, Short.MAX_VALUE)
+        );
+
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, 640, 360));
+
         Retroceder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/icons8_Back_64px.png"))); // NOI18N
         Retroceder.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 RetrocederMouseClicked(evt);
             }
         });
+        jPanel2.add(Retroceder, new org.netbeans.lib.awtextra.AbsoluteConstraints(685, 12, -1, -1));
 
         Minimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/icons8_Expand_Arrow_32px.png"))); // NOI18N
         Minimizar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -75,6 +185,7 @@ public class VisualizadorAdmin extends javax.swing.JFrame {
                 MinimizarMouseClicked(evt);
             }
         });
+        jPanel2.add(Minimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(723, 12, -1, -1));
 
         Cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/icons8_Multiply_32px.png"))); // NOI18N
         Cerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -83,46 +194,17 @@ public class VisualizadorAdmin extends javax.swing.JFrame {
                 CerrarMouseClicked(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 480, Short.MAX_VALUE)
-        );
+        jPanel2.add(Cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(761, 12, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 689, Short.MAX_VALUE)
-                        .addComponent(Retroceder)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Minimizar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Cerrar))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Retroceder)
-                    .addComponent(Minimizar)
-                    .addComponent(Cerrar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -130,10 +212,15 @@ public class VisualizadorAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void RetrocederMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrocederMouseClicked
-        // TODO add your handling code here:
-        MenuAdmin vista=new MenuAdmin(conexion,usuario);
-        vista.setVisible(true);
-        dispose();
+        try {
+            // TODO add your handling code here:
+            AprendeAdmin vista=new AprendeAdmin(conexion,usuario);
+            vista.setVisible(true);
+            Detener();
+            dispose();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }//GEN-LAST:event_RetrocederMouseClicked
 
     private void MinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MinimizarMouseClicked
@@ -148,6 +235,28 @@ public class VisualizadorAdmin extends javax.swing.JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_CerrarMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        index=index-1;
+        if(index<0){
+            index=tamanio-1;
+        }
+        Detener();
+        SeleccionArchivo();
+        System.out.println(archivos.get(index).getUbicacion());
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        index=index+1;
+        if(index>=tamanio){
+            index=0;
+        }
+        Detener();
+        SeleccionArchivo();
+        System.out.println(archivos.get(index).getUbicacion());
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -186,6 +295,10 @@ public class VisualizadorAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel Cerrar;
     private javax.swing.JLabel Minimizar;
     private javax.swing.JLabel Retroceder;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }
